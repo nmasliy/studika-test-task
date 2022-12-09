@@ -1,0 +1,23 @@
+header.header
+  .container
+    .header__inner
+      .header__top
+        button.header__burger.burger
+          span.burger__line
+        a.header__logo(href="./")
+          img(src="@img/logo.svg", alt="Логотип Студика", width="88", height="32")
+        include city-picker
+        form.header__search-form(action="#")
+          input.header__search.search-input(type="search", name="search", placeholder="Учебное заведение, специальность или профессия")
+          button.header__search-clear(type="button")
+            include ../../img/close-icon.svg
+        a.header__favorites(href="#")
+          img(src="@img/heart-icon.svg", width="18", height="18", alt="Избранное")
+          span 1
+        a.header__profile(href="#")
+          span Екатерина
+          +picture-x2('@img/avatar', 'jpg', 32, 32, 'Екатерина', 'lazy')
+      .header__bottom
+        include nav
+    include mobile-menu
+    .header__overlay

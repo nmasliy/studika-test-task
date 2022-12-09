@@ -1,0 +1,49 @@
+/* stylelint-disable */
+
+@mixin min-tablet {
+  @media (min-width: (1025px)) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: (1280px)) {
+    @content;
+  }
+}
+
+@mixin lg-desktop {
+  @media (max-width: (1440px)) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: (1024px)) {
+    @content;
+  }
+}
+
+@mixin sm-tablet {
+  @media (max-width: (768px)) {
+    @content;
+  }
+}
+
+@mixin lg-mobile {
+  @media (max-width: (576px)) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: (476px)) {
+    @content;
+  }
+}
+
+@mixin sm-mobile {
+  @media (max-width: (376px)) {
+    @content;
+  }
+}

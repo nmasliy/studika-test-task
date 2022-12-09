@@ -1,0 +1,12 @@
+block vars
+
+include ../mixins
+include ../templates/head
+body
+  .page-wrapper
+    include ../templates/header
+    main.main
+      block content
+    include ../templates/footer
+
+  include ../templates/scripts

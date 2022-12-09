@@ -1,0 +1,15 @@
+.header__city-picker.city-picker
+  .city-picker__head
+    button.city-picker__icon
+    .city-picker__current Любой регион
+  .city-picker__modal
+    form.city-picker__form(action="#")
+      .city-picker__search
+        input.city-picker__input.search-input(type="search", placeholder="Регион, город, населенный пункт")
+        button.city-picker__clear(type="button")
+          include ../../img/close-icon.svg
+      .city-picker__selected
+      .city-picker__items
+      .city-picker__results
+      .city-picker__preloader.preloader
+      button.city-picker__save(type="button") Сохранить

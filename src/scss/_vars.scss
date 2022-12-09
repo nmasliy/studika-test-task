@@ -1,0 +1,19 @@
+// base
+:root {
+  --content-width: 1216px;
+  --container-offset: 16px;
+  --container-width: calc(var(--content-width) + var(--container-offset));
+}
+
+$font-family: 'OpenSans', sans-serif;
+$transition: 0.25s ease-in-out;
+$menu-transition: 0.35s ease-in-out;
+
+// colors
+$main-color: #222222;
+$white-color: #fff;
+$black-color: #000;
+$action-color: #0656b4;
+$grey-color: #767676;
+$bg-color: #f1f1f1;
+$icons-color: #A7A7A7;
