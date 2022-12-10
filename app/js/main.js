@@ -217,8 +217,8 @@ function initListeners() {
   _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper.addEventListener('click', e => {
     const $deleteBtn = e.target.closest('.selected-list__delete');
     if ($deleteBtn) {
-      const currentItem = (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getCityNodeById)($deleteBtn.closest('.selected-list__item').dataset.id, _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper);
-      (0,_select_city__WEBPACK_IMPORTED_MODULE_0__.toggleCitySelect)(currentItem);
+      const id = $deleteBtn.closest('.selected-list__item').dataset.id;
+      (0,_select_city__WEBPACK_IMPORTED_MODULE_0__.selectCity)(id);
     }
   });
   _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.addEventListener('click', _select_city__WEBPACK_IMPORTED_MODULE_0__.selectCityHandler);

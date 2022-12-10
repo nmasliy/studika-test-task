@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { selectCityHandler, toggleCitySelect } from './select-city';
+import { selectCity, selectCityHandler, toggleCitySelect } from './select-city';
 import {
   getAreaHTML,
   getCityNodeById,
@@ -155,14 +155,10 @@ function initSearch() {
 function initListeners() {
   $selectedWrapper.addEventListener('click', (e) => {
     const $deleteBtn = e.target.closest('.selected-list__delete');
-
+    
     if ($deleteBtn) {
-      const currentItem = getCityNodeById(
-        $deleteBtn.closest('.selected-list__item').dataset.id,
-        $selectedWrapper
-      );
-
-      toggleCitySelect(currentItem);
+      const id = $deleteBtn.closest('.selected-list__item').dataset.id;
+      selectCity(id);
     }
   });
 
