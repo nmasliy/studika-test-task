@@ -23,7 +23,7 @@ module.exports = typeof self == 'object' ? self.FormData : window.FormData;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/menu */ "./src/js/components/menu.js");
 /* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_city_picker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/city-picker */ "./src/js/components/city-picker.js");
+/* harmony import */ var _components_city_picker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/city-picker */ "./src/js/components/city-picker/index.js");
 /* harmony import */ var _components_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/scrollbar */ "./src/js/components/scrollbar.js");
 
 
@@ -41,44 +41,86 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/js/components/city-picker.js":
-/*!******************************************!*\
-  !*** ./src/js/components/city-picker.js ***!
-  \******************************************/
+/***/ "./src/js/components/city-picker/helpers.js":
+/*!**************************************************!*\
+  !*** ./src/js/components/city-picker/helpers.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAreaHTML": () => (/* binding */ getAreaHTML),
+/* harmony export */   "getCityHTML": () => (/* binding */ getCityHTML),
+/* harmony export */   "getCityNodeById": () => (/* binding */ getCityNodeById),
+/* harmony export */   "getSelectedHTML": () => (/* binding */ getSelectedHTML),
+/* harmony export */   "getSelectedNodeById": () => (/* binding */ getSelectedNodeById)
+/* harmony export */ });
+const getCityNodeById = function (id) {
+  let $parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.querySelector('.city-picker__items');
+  return $parent.querySelector(`.city-list__item[data-id="${id}"]`);
+};
+const getSelectedNodeById = id => document.querySelector(`.selected-list__item[data-id="${id}"]`);
+const getSelectedHTML = (id, name) => `
+  <li class="selected-list__item" data-id="${id}">
+    <span class="selected-list__name">${name}</span>
+    <button class="selected-list__delete" type="button">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#A7A7A7"/>
+      </svg>
+    </button>
+  </li>`;
+const getAreaHTML = function (id, name) {
+  let itemClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  return `
+  <li class="city-list__item${itemClass}" data-id="${id}">
+    <div class="city-list__name">${name}</div>
+  </li>`;
+};
+const getCityHTML = function (id, name, areaName) {
+  let itemClass = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+  return `
+  <li class="city-list__item${itemClass}" data-id="${id}">
+    <div class="city-list__name">${name}</div>
+    <div class="city-list__region">${areaName}</div>
+  </li>`;
+};
 
-const $preloader = document.querySelector('.city-picker__preloader');
-const $citiesWrapper = document.querySelector('.city-picker__items');
-const $selectedWrapper = document.querySelector('.city-picker__selected');
-const $cityPicker = document.querySelector('.city-picker');
-const $resultsWrapper = document.querySelector('.city-picker__results');
-const getCityById = id => {
-  const city = document.querySelector(`.city-list__item[data-id="${id}"]`);
-  console.log(city);
-  if (!city.classList.contains('is-hidden')) {
-    return city;
-  }
-};
-const getSelectedById = id => document.querySelector(`.city-picker__selected li[data-id="${id}"]`);
-const getAreaHTML = function (item) {
-  let itemExtraClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  return `
-  <li class="city-list__item${itemExtraClass}" data-id="${item.id}">
-    <div class="city-list__name">${item.name}</div>
-  </li>`;
-};
-const getCityHTML = function (item) {
-  let itemExtraClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  return `
-  <li class="city-list__item${itemExtraClass}" data-id="${item.id}">
-    <div class="city-list__name">${item.name}</div>
-    <div class="city-list__region">${item.areaName}</div>
-  </li>`;
-};
+/***/ }),
+
+/***/ "./src/js/components/city-picker/index.js":
+/*!************************************************!*\
+  !*** ./src/js/components/city-picker/index.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./init */ "./src/js/components/city-picker/init.js");
+
+
+/***/ }),
+
+/***/ "./src/js/components/city-picker/init.js":
+/*!***********************************************!*\
+  !*** ./src/js/components/city-picker/init.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "allCities": () => (/* binding */ allCities),
+/* harmony export */   "data": () => (/* binding */ data)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _select_city__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./select-city */ "./src/js/components/city-picker/select-city.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers */ "./src/js/components/city-picker/helpers.js");
+/* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
+
+
+
+
 const allCities = [];
 let data = [];
 function initCities() {
@@ -87,8 +129,8 @@ function initCities() {
   $cityList.classList.add('city-list');
   const $selectedList = document.createElement('ul');
   $selectedList.classList.add('selected-list');
-  $citiesWrapper.insertAdjacentElement('afterbegin', $cityList);
-  $selectedWrapper.insertAdjacentElement('afterbegin', $selectedList);
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.insertAdjacentElement('afterbegin', $cityList);
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper.insertAdjacentElement('afterbegin', $selectedList);
   data.forEach(area => {
     const areaData = {
       id: area.id,
@@ -96,7 +138,7 @@ function initCities() {
       type: area.type
     };
     allCities.push(areaData);
-    citiesHTML += getAreaHTML(areaData);
+    citiesHTML += (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getAreaHTML)(areaData.id, areaData.name);
     if (area.cities) {
       area.cities.forEach(city => {
         const cityData = {
@@ -105,111 +147,63 @@ function initCities() {
           areaName: area.name
         };
         allCities.push(cityData);
-        citiesHTML += getCityHTML(cityData);
+        citiesHTML += (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getCityHTML)(cityData.id, cityData.name, cityData.areaName);
       });
     }
   });
-  $preloader.remove();
-  $citiesWrapper.querySelector('ul').insertAdjacentHTML('afterbegin', citiesHTML);
-}
-function toggleCitySelect($listItem) {
-  const $selectedCitiesList = document.querySelector('.selected-list');
-  const itemText = $listItem.querySelector('.city-list__name').textContent;
-  if ($listItem.classList.contains('is-active')) {
-    $listItem.classList.remove('is-active');
-    const currentElementInList = getSelectedById($listItem.dataset.id);
-    currentElementInList?.remove();
-  } else {
-    $listItem.classList.add('is-active');
-    const selectedElementHTML = `
-      <li class="selected-list__item" data-id="${$listItem.dataset.id}">
-        <span class="selected-list__name">${itemText}</span>
-        <button class="selected-list__delete" type="button">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#A7A7A7"/>
-          </svg>
-        </button>
-      </li>
-    `;
-    $selectedCitiesList.insertAdjacentHTML('beforeend', selectedElementHTML);
-  }
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$preloader.remove();
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.querySelector('ul').insertAdjacentHTML('afterbegin', citiesHTML);
 }
 function initSearch() {
   const $search = document.querySelector('.city-picker__search');
   const $searchInput = $search.querySelector('.city-picker__input');
   const $searchClear = $search.querySelector('.city-picker__clear');
   const $searchResults = document.querySelector('.city-picker__results');
-  const $cityListNames = document.querySelectorAll('.city-list__name');
   let prevSearchValue = '';
   function showAllCities() {
     $search.classList.remove('is-active');
-    $cityListNames.forEach($item => {
-      const $itemParent = $item.closest('.city-list__item');
-      $itemParent.classList.remove('is-hidden');
-      $item.innerHTML = $item.innerText;
-    });
+    document.querySelector('.results-list').remove();
+    _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.remove('is-hidden');
   }
   function insertMark(str, pos, len) {
     return str.slice(0, pos) + '<mark>' + str.slice(pos, pos + len) + '</mark>' + str.slice(pos + len);
   }
+  // TODO: баг: при удалении дублируется selected item
   function searchHandler(e) {
     const value = e.target.value.trim().toLowerCase();
-    if (value == prevSearchValue) return; // исключаем одновременное выполнение событий change и click если значение не изменилось
 
+    // исключаем одновременное выполнение событий change и click если значение не изменилось
+    if (value === prevSearchValue) return;
     prevSearchValue = value;
     if (value !== '') {
+      document.querySelector('.results-list')?.remove();
       const $resultList = document.createElement('ul');
       $resultList.classList.add('results-list');
       $resultList.classList.add('city-list');
       $search.classList.add('is-active');
       const allCitiesArrayHTML = allCities.map(item => {
-        const extraClass = getSelectedById(item.id) ? ' is-active' : ''; // if it's selected item
+        const extraClass = (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getSelectedNodeById)(item.id) ? ' is-active' : ''; // if it's selected item
 
-        return !item.type ? getCityHTML(item, extraClass) : getAreaHTML(item, extraClass);
+        if (item.name.toLowerCase().search(value) === -1) {
+          return null;
+        } else {
+          const str = item.name;
+          const itemNameHTML = insertMark(str, item.name.toLowerCase().search(value), value.length);
+          return !item.type ? (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getCityHTML)(item.id, itemNameHTML, item.areaName, extraClass) : (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getAreaHTML)(item.id, itemNameHTML, extraClass);
+        }
       });
       let html = '';
       allCitiesArrayHTML.forEach(item => {
-        html += item;
+        if (item) {
+          html += item;
+        }
       });
-      $citiesWrapper.classList.add('is-hidden');
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.add('is-hidden');
       $searchResults.insertAdjacentElement('afterbegin', $resultList);
       $resultList.insertAdjacentHTML('afterbegin', html);
     } else {
-      $citiesWrapper.classList.remove('is-hidden');
       document.querySelector('.results-list').remove();
-      // $search.classList.add('is-active');
-
-      // $cityListNames.forEach($item => {
-      //   const $itemParent = $item.closest('.city-list__item');
-
-      //   $itemParent.classList.remove('is-hidden');
-      //   $item.innerHTML = $item.innerText;
-      // })
-    }
-  }
-
-  function searchHandlerOld(e) {
-    const val = e.target.value.trim().toLowerCase();
-    if (val !== '') {
-      $search.classList.add('is-active');
-      $cityListNames.forEach($item => {
-        const $itemParent = $item.closest('.city-list__item');
-        if ($item.innerText.toLowerCase().search(val) === -1) {
-          $itemParent.classList.add('is-hidden');
-          $item.innerHTML = $item.innerText;
-        } else {
-          $itemParent.classList.remove('is-hidden');
-          const str = $item.innerText;
-          $item.innerHTML = insertMark(str, $item.innerText.toLowerCase().search(val), val.length);
-        }
-      });
-    } else {
-      $search.classList.add('is-active');
-      $cityListNames.forEach($item => {
-        const $itemParent = $item.closest('.city-list__item');
-        $itemParent.classList.remove('is-hidden');
-        $item.innerHTML = $item.innerText;
-      });
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.remove('is-hidden');
     }
   }
   $searchInput.addEventListener('input', searchHandler);
@@ -219,30 +213,23 @@ function initSearch() {
     $searchInput.value = '';
   });
 }
-function selectCityHandler(e) {
-  const $cityListItem = e.target.closest('.city-list__item');
-  console.log(e.target);
-  if ($cityListItem) {
-    toggleCitySelect($cityListItem);
-  }
-}
 function initListeners() {
-  $selectedWrapper.addEventListener('click', e => {
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper.addEventListener('click', e => {
     const $deleteBtn = e.target.closest('.selected-list__delete');
     if ($deleteBtn) {
-      const currentItem = getCityById($deleteBtn.closest('.selected-list__item').dataset.id);
-      toggleCitySelect(currentItem);
+      const currentItem = (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getCityNodeById)($deleteBtn.closest('.selected-list__item').dataset.id, _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper);
+      (0,_select_city__WEBPACK_IMPORTED_MODULE_0__.toggleCitySelect)(currentItem);
     }
   });
-  $citiesWrapper.addEventListener('click', selectCityHandler);
-  $resultsWrapper.addEventListener('click', selectCityHandler);
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.addEventListener('click', _select_city__WEBPACK_IMPORTED_MODULE_0__.selectCityHandler);
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$resultsWrapper.addEventListener('click', _select_city__WEBPACK_IMPORTED_MODULE_0__.selectCityHandler);
   window.addEventListener('click', e => {
     if (!e.target.closest('.city-picker') && !e.target.closest('.selected-list__delete')) {
-      $cityPicker.classList.remove('is-active');
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$cityPicker.classList.remove('is-active');
     } else if (e.target.closest('.city-picker__head')) {
-      $cityPicker.classList.toggle('is-active');
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$cityPicker.classList.toggle('is-active');
       if (!data.length) {
-        (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])('https://studika.ru/api/areas', {
+        (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])('https://studika.ru/api/areas', {
           method: 'POST'
         }).then(response => {
           data = response.data;
@@ -254,6 +241,70 @@ function initListeners() {
   });
 }
 initListeners();
+
+/***/ }),
+
+/***/ "./src/js/components/city-picker/select-city.js":
+/*!******************************************************!*\
+  !*** ./src/js/components/city-picker/select-city.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "selectCity": () => (/* binding */ selectCity),
+/* harmony export */   "selectCityHandler": () => (/* binding */ selectCityHandler)
+/* harmony export */ });
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./src/js/components/city-picker/helpers.js");
+/* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
+
+
+function selectCity(id, isSetActive) {
+  const $city = (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id);
+  const $selectedCityList = document.querySelector('.selected-list');
+  const name = $city.querySelector('.city-list__name').textContent;
+  if (isSetActive) {
+    (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id).classList.add('is-active'); // Делаем активным эл. в .city-picker__items
+    (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id, _vars__WEBPACK_IMPORTED_MODULE_1__.$resultsWrapper)?.classList.add('is-active'); // Делаем активным эл. в .city-picker__results
+
+    $selectedCityList.insertAdjacentHTML('beforeend', (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getSelectedHTML)(id, name));
+  } else {
+    (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id).classList.remove('is-active'); // Убираем активность эл. в .city-picker__items
+    (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id, _vars__WEBPACK_IMPORTED_MODULE_1__.$resultsWrapper)?.classList.remove('is-active'); // Убираем активность эл. в .city-picker__results
+
+    (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getSelectedNodeById)(id)?.remove();
+  }
+}
+function selectCityHandler(e) {
+  const $cityListItem = e.target.closest('.city-list__item');
+  if ($cityListItem) {
+    $cityListItem.classList.contains('is-active') ? selectCity($cityListItem.dataset.id) : selectCity($cityListItem.dataset.id, true);
+  }
+}
+
+/***/ }),
+
+/***/ "./src/js/components/city-picker/vars.js":
+/*!***********************************************!*\
+  !*** ./src/js/components/city-picker/vars.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "$citiesWrapper": () => (/* binding */ $citiesWrapper),
+/* harmony export */   "$cityPicker": () => (/* binding */ $cityPicker),
+/* harmony export */   "$preloader": () => (/* binding */ $preloader),
+/* harmony export */   "$resultsWrapper": () => (/* binding */ $resultsWrapper),
+/* harmony export */   "$selectedWrapper": () => (/* binding */ $selectedWrapper)
+/* harmony export */ });
+const $preloader = document.querySelector('.city-picker__preloader');
+const $citiesWrapper = document.querySelector('.city-picker__items');
+const $selectedWrapper = document.querySelector('.city-picker__selected');
+const $cityPicker = document.querySelector('.city-picker');
+const $resultsWrapper = document.querySelector('.city-picker__results');
 
 /***/ }),
 
