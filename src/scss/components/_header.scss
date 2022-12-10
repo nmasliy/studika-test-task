@@ -275,6 +275,12 @@
     padding: 9px 12px 9px 17px;
     color: $white-color;
     background: $action-color;
+    transition: opacity $transition;
+    animation: fade-in $transition;
+
+    &.is-fade-out {
+      opacity: 0;
+    }
   }
 
   &__delete {

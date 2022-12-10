@@ -6,6 +6,14 @@ import {
 
 import { $resultsWrapper } from './vars';
 
+function removeSelectedElement($element) {
+  const TRANSITION_DELAY = 250;
+
+  $element.classList.add('is-fade-out');
+
+  setTimeout(() => $element.remove(), TRANSITION_DELAY);
+}
+
 export function selectCity(id, isSetActive) {
   const $city = getCityNodeById(id);
   const $selectedCityList = document.querySelector('.selected-list');
@@ -23,7 +31,7 @@ export function selectCity(id, isSetActive) {
     getCityNodeById(id).classList.remove('is-active'); // Убираем активность эл. в .city-picker__items
     getCityNodeById(id, $resultsWrapper)?.classList.remove('is-active'); // Убираем активность эл. в .city-picker__results
 
-    getSelectedNodeById(id)?.remove();
+    removeSelectedElement(getSelectedNodeById(id));
   }
 }
 

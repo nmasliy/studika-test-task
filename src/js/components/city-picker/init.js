@@ -1,16 +1,12 @@
 import axios from 'axios';
-import { selectCity, selectCityHandler, toggleCitySelect } from './select-city';
-import {
-  getAreaHTML,
-  getCityNodeById,
-  getCityHTML,
-  getSelectedNodeById,
-} from './helpers';
+import { selectCity, selectCityHandler } from './select-city';
+import { getAreaHTML, getCityHTML, getSelectedNodeById } from './helpers';
 import {
   $citiesWrapper,
   $cityPicker,
   $preloader,
   $resultsWrapper,
+  $saveBtn,
   $selectedWrapper,
 } from './vars';
 
@@ -153,9 +149,29 @@ function initSearch() {
 }
 
 function initListeners() {
+  $saveBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const $savedCities = document.querySelectorAll('.selected-list__item');
+
+    if ($savedCities.length > 0) {
+      const savedCitiesData = [];
+
+      $savedCities.forEach(($item) => {
+        savedCitiesData.push({
+          name: $item.querySelector('.selected-list__name').textContent,
+          id: $item.dataset.id,
+        });
+      });
+
+      console.log('Send data: ');
+      console.log(savedCitiesData);
+    }
+  });
+
   $selectedWrapper.addEventListener('click', (e) => {
     const $deleteBtn = e.target.closest('.selected-list__delete');
-    
+
     if ($deleteBtn) {
       const id = $deleteBtn.closest('.selected-list__item').dataset.id;
       selectCity(id);

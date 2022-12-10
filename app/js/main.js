@@ -214,6 +214,21 @@ function initSearch() {
   });
 }
 function initListeners() {
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$saveBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const $savedCities = document.querySelectorAll('.selected-list__item');
+    if ($savedCities.length > 0) {
+      const savedCitiesData = [];
+      $savedCities.forEach($item => {
+        savedCitiesData.push({
+          name: $item.querySelector('.selected-list__name').textContent,
+          id: $item.dataset.id
+        });
+      });
+      console.log('Send data: ');
+      console.log(savedCitiesData);
+    }
+  });
   _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper.addEventListener('click', e => {
     const $deleteBtn = e.target.closest('.selected-list__delete');
     if ($deleteBtn) {
@@ -260,6 +275,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
 
 
+function removeSelectedElement($element) {
+  const TRANSITION_DELAY = 250;
+  $element.classList.add('is-fade-out');
+  setTimeout(() => $element.remove(), TRANSITION_DELAY);
+}
 function selectCity(id, isSetActive) {
   const $city = (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id);
   const $selectedCityList = document.querySelector('.selected-list');
@@ -273,7 +293,7 @@ function selectCity(id, isSetActive) {
     (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id).classList.remove('is-active'); // Убираем активность эл. в .city-picker__items
     (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id, _vars__WEBPACK_IMPORTED_MODULE_1__.$resultsWrapper)?.classList.remove('is-active'); // Убираем активность эл. в .city-picker__results
 
-    (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getSelectedNodeById)(id)?.remove();
+    removeSelectedElement((0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getSelectedNodeById)(id));
   }
 }
 function selectCityHandler(e) {
@@ -298,13 +318,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "$cityPicker": () => (/* binding */ $cityPicker),
 /* harmony export */   "$preloader": () => (/* binding */ $preloader),
 /* harmony export */   "$resultsWrapper": () => (/* binding */ $resultsWrapper),
+/* harmony export */   "$saveBtn": () => (/* binding */ $saveBtn),
 /* harmony export */   "$selectedWrapper": () => (/* binding */ $selectedWrapper)
 /* harmony export */ });
-const $preloader = document.querySelector('.city-picker__preloader');
-const $citiesWrapper = document.querySelector('.city-picker__items');
-const $selectedWrapper = document.querySelector('.city-picker__selected');
 const $cityPicker = document.querySelector('.city-picker');
-const $resultsWrapper = document.querySelector('.city-picker__results');
+const $saveBtn = $cityPicker.querySelector('.city-picker__save');
+const $preloader = $cityPicker.querySelector('.city-picker__preloader');
+const $citiesWrapper = $cityPicker.querySelector('.city-picker__items');
+const $selectedWrapper = $cityPicker.querySelector('.city-picker__selected');
+const $resultsWrapper = $cityPicker.querySelector('.city-picker__results');
 
 /***/ }),
 
