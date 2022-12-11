@@ -8,8 +8,8 @@
     margin-bottom: 24px;
 
     @media (max-width: 1024px) {
-      margin-bottom: 0;
       justify-content: space-between;
+      margin-bottom: 0;
     }
   }
 
@@ -121,24 +121,24 @@
     }
   }
 
-	&__overlay {
-		display: none;
-		transition: $menu-transition;
-		position: fixed;
-		z-index: 5;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		width: 100%;
-		height: 100%;
-		opacity: 0;
-		background-color: rgba(0, 0, 0, 0.6);
+  &__overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 60%);
+    opacity: 0;
+    transition: $menu-transition;
 
-		&.is-active {
-			opacity: 1;
-		}
-	}
+    &.is-active {
+      opacity: 1;
+    }
+  }
 }
 
 .city-picker {
@@ -147,10 +147,10 @@
   &__head {
     display: flex;
     align-items: center;
-    cursor: pointer;
-    max-width: 200px;
     overflow: hidden;
-  
+    max-width: 200px;
+    cursor: pointer;
+
     @include hover {
       .city-picker__icon {
         background-color: $bg-color;
@@ -159,11 +159,11 @@
   }
 
   &__current {
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
   }
-  
+
   &__icon {
     display: block;
     flex-shrink: 0;
@@ -173,8 +173,11 @@
     padding: 0;
     width: 32px;
     height: 32px;
-    background: url("../img/city-picker-icon.svg") center / 16px 19px no-repeat $white-color;
+    background:
+      url("../img/city-picker-icon.svg") center / 16px 19px no-repeat
+      $white-color;
     transition: background-color $transition;
+    cursor: pointer;
   }
 
   &__modal {
@@ -188,6 +191,9 @@
     width: 385px;
     box-shadow: 0 7px 38px rgba(44, 62, 106, 25%);
     background-color: #fbfbfb;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: $transition;
   }
 
   &__search {
@@ -248,15 +254,23 @@
     cursor: pointer;
   }
 
-  &__items, &__results {
-    position: relative;
-    max-height: 200px;
+  &.is-animated {
+    .city-picker__modal {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   &.is-active {
     .city-picker__modal {
       display: block;
     }
+  }
+
+  &__items,
+  &__results {
+    position: relative;
+    max-height: 200px;
   }
 }
 
@@ -362,13 +376,13 @@
   left: 0;
   top: 0;
   z-index: 40;
-  max-width: 280px;
+  display: none;
   width: 100%;
   height: 100vh;
+  max-width: 280px;
   background-color: $white-color;
-  display: none;
-  transform: translateX(-100%);
   opacity: 0;
+  transform: translateX(-100%);
   transition: $menu-transition;
 
   &__wrapper {
@@ -377,20 +391,15 @@
     height: 100%;
   }
 
-  &.is-active {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
   &__close {
-    display: block;
-    background: transparent;
-    border: none;
-		position: absolute;
-		right: -32px;
+    position: absolute;
+    right: -32px;
     top: 10px;
-		z-index: 13;
-		transition: $transition;
+    z-index: 13;
+    display: block;
+    border: none;
+    background: transparent;
+    transition: $transition;
 
     svg {
       width: 17px;
@@ -400,6 +409,10 @@
     path {
       fill: $white-color;
     }
-	}
+  }
 
+  &.is-active {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

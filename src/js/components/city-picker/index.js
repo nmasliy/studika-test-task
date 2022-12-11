@@ -1,1 +1,3 @@
-import './init';
+import { initCityPicker } from './init';
+
+initCityPicker();

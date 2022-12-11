@@ -1,5 +1,9 @@
-export const getCityNodeById = (id, $parent = document.querySelector('.city-picker__items')) => 
-  $parent.querySelector(`.city-list__item[data-id="${id}"]`);
+import { $cityPicker, TRANSITION_DELAY } from './vars';
+
+export const getCityNodeById = (
+  id,
+  $parent = document.querySelector('.city-picker__items')
+) => $parent.querySelector(`.city-list__item[data-id="${id}"]`);
 
 export const getSelectedNodeById = (id) =>
   document.querySelector(`.selected-list__item[data-id="${id}"]`);
@@ -13,12 +17,24 @@ export const getSelectedHTML = (id, name) => `
       </svg>
     </button>
   </li>`;
+
 export const getAreaHTML = (id, name, itemClass = '') => `
   <li class="city-list__item${itemClass}" data-id="${id}">
     <div class="city-list__name">${name}</div>
   </li>`;
+
 export const getCityHTML = (id, name, areaName, itemClass = '') => `
   <li class="city-list__item${itemClass}" data-id="${id}">
     <div class="city-list__name">${name}</div>
     <div class="city-list__region">${areaName}</div>
   </li>`;
+
+export const openCityPicker = () => {
+  $cityPicker.classList.add('is-active');
+  setTimeout(() => $cityPicker.classList.add('is-animated'), TRANSITION_DELAY);
+};
+
+export const closeCityPicker = () => {
+  $cityPicker.classList.remove('is-animated');
+  setTimeout(() => $cityPicker.classList.remove('is-active'), TRANSITION_DELAY);
+};

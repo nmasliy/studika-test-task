@@ -41,6 +41,57 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/js/components/city-picker/cities.js":
+/*!*************************************************!*\
+  !*** ./src/js/components/city-picker/cities.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "initCities": () => (/* binding */ initCities)
+/* harmony export */ });
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./src/js/components/city-picker/helpers.js");
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./init */ "./src/js/components/city-picker/init.js");
+/* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
+
+
+
+function initCities() {
+  let citiesHTML = '';
+  const $cityList = document.createElement('ul');
+  $cityList.classList.add('city-list');
+  const $selectedList = document.createElement('ul');
+  $selectedList.classList.add('selected-list');
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.insertAdjacentElement('afterbegin', $cityList);
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper.insertAdjacentElement('afterbegin', $selectedList);
+  _init__WEBPACK_IMPORTED_MODULE_1__.data.forEach(area => {
+    const areaData = {
+      id: area.id,
+      name: area.name,
+      type: area.type
+    };
+    _init__WEBPACK_IMPORTED_MODULE_1__.allCities.push(areaData);
+    citiesHTML += (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getAreaHTML)(areaData.id, areaData.name);
+    if (area.cities) {
+      area.cities.forEach(city => {
+        const cityData = {
+          id: city.id,
+          name: city.name,
+          areaName: area.name
+        };
+        _init__WEBPACK_IMPORTED_MODULE_1__.allCities.push(cityData);
+        citiesHTML += (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityHTML)(cityData.id, cityData.name, cityData.areaName);
+      });
+    }
+  });
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$preloader.remove();
+  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.querySelector('ul').insertAdjacentHTML('afterbegin', citiesHTML);
+}
+
+/***/ }),
+
 /***/ "./src/js/components/city-picker/helpers.js":
 /*!**************************************************!*\
   !*** ./src/js/components/city-picker/helpers.js ***!
@@ -50,12 +101,16 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "closeCityPicker": () => (/* binding */ closeCityPicker),
 /* harmony export */   "getAreaHTML": () => (/* binding */ getAreaHTML),
 /* harmony export */   "getCityHTML": () => (/* binding */ getCityHTML),
 /* harmony export */   "getCityNodeById": () => (/* binding */ getCityNodeById),
 /* harmony export */   "getSelectedHTML": () => (/* binding */ getSelectedHTML),
-/* harmony export */   "getSelectedNodeById": () => (/* binding */ getSelectedNodeById)
+/* harmony export */   "getSelectedNodeById": () => (/* binding */ getSelectedNodeById),
+/* harmony export */   "openCityPicker": () => (/* binding */ openCityPicker)
 /* harmony export */ });
+/* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
+
 const getCityNodeById = function (id) {
   let $parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.querySelector('.city-picker__items');
   return $parent.querySelector(`.city-list__item[data-id="${id}"]`);
@@ -85,6 +140,14 @@ const getCityHTML = function (id, name, areaName) {
     <div class="city-list__region">${areaName}</div>
   </li>`;
 };
+const openCityPicker = () => {
+  _vars__WEBPACK_IMPORTED_MODULE_0__.$cityPicker.classList.add('is-active');
+  setTimeout(() => _vars__WEBPACK_IMPORTED_MODULE_0__.$cityPicker.classList.add('is-animated'), _vars__WEBPACK_IMPORTED_MODULE_0__.TRANSITION_DELAY);
+};
+const closeCityPicker = () => {
+  _vars__WEBPACK_IMPORTED_MODULE_0__.$cityPicker.classList.remove('is-animated');
+  setTimeout(() => _vars__WEBPACK_IMPORTED_MODULE_0__.$cityPicker.classList.remove('is-active'), _vars__WEBPACK_IMPORTED_MODULE_0__.TRANSITION_DELAY);
+};
 
 /***/ }),
 
@@ -98,6 +161,7 @@ const getCityHTML = function (id, name, areaName) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./init */ "./src/js/components/city-picker/init.js");
 
+(0,_init__WEBPACK_IMPORTED_MODULE_0__.initCityPicker)();
 
 /***/ }),
 
@@ -111,109 +175,24 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "allCities": () => (/* binding */ allCities),
-/* harmony export */   "data": () => (/* binding */ data)
+/* harmony export */   "data": () => (/* binding */ data),
+/* harmony export */   "initCityPicker": () => (/* binding */ initCityPicker)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _select_city__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./select-city */ "./src/js/components/city-picker/select-city.js");
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers */ "./src/js/components/city-picker/helpers.js");
 /* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
+/* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./search */ "./src/js/components/city-picker/search.js");
+/* harmony import */ var _cities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cities */ "./src/js/components/city-picker/cities.js");
+
+
 
 
 
 
 const allCities = [];
 let data = [];
-function initCities() {
-  let citiesHTML = '';
-  const $cityList = document.createElement('ul');
-  $cityList.classList.add('city-list');
-  const $selectedList = document.createElement('ul');
-  $selectedList.classList.add('selected-list');
-  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.insertAdjacentElement('afterbegin', $cityList);
-  _vars__WEBPACK_IMPORTED_MODULE_2__.$selectedWrapper.insertAdjacentElement('afterbegin', $selectedList);
-  data.forEach(area => {
-    const areaData = {
-      id: area.id,
-      name: area.name,
-      type: area.type
-    };
-    allCities.push(areaData);
-    citiesHTML += (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getAreaHTML)(areaData.id, areaData.name);
-    if (area.cities) {
-      area.cities.forEach(city => {
-        const cityData = {
-          id: city.id,
-          name: city.name,
-          areaName: area.name
-        };
-        allCities.push(cityData);
-        citiesHTML += (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getCityHTML)(cityData.id, cityData.name, cityData.areaName);
-      });
-    }
-  });
-  _vars__WEBPACK_IMPORTED_MODULE_2__.$preloader.remove();
-  _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.querySelector('ul').insertAdjacentHTML('afterbegin', citiesHTML);
-}
-function initSearch() {
-  const $search = document.querySelector('.city-picker__search');
-  const $searchInput = $search.querySelector('.city-picker__input');
-  const $searchClear = $search.querySelector('.city-picker__clear');
-  const $searchResults = document.querySelector('.city-picker__results');
-  let prevSearchValue = '';
-  function showAllCities() {
-    $search.classList.remove('is-active');
-    document.querySelector('.results-list').remove();
-    _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.remove('is-hidden');
-  }
-  function insertMark(str, pos, len) {
-    return str.slice(0, pos) + '<mark>' + str.slice(pos, pos + len) + '</mark>' + str.slice(pos + len);
-  }
-  // TODO: баг: при удалении дублируется selected item
-  function searchHandler(e) {
-    const value = e.target.value.trim().toLowerCase();
-
-    // исключаем одновременное выполнение событий change и click если значение не изменилось
-    if (value === prevSearchValue) return;
-    prevSearchValue = value;
-    if (value !== '') {
-      document.querySelector('.results-list')?.remove();
-      const $resultList = document.createElement('ul');
-      $resultList.classList.add('results-list');
-      $resultList.classList.add('city-list');
-      $search.classList.add('is-active');
-      const allCitiesArrayHTML = allCities.map(item => {
-        const extraClass = (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getSelectedNodeById)(item.id) ? ' is-active' : ''; // if it's selected item
-
-        if (item.name.toLowerCase().search(value) === -1) {
-          return null;
-        } else {
-          const str = item.name;
-          const itemNameHTML = insertMark(str, item.name.toLowerCase().search(value), value.length);
-          return !item.type ? (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getCityHTML)(item.id, itemNameHTML, item.areaName, extraClass) : (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.getAreaHTML)(item.id, itemNameHTML, extraClass);
-        }
-      });
-      let html = '';
-      allCitiesArrayHTML.forEach(item => {
-        if (item) {
-          html += item;
-        }
-      });
-      _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.add('is-hidden');
-      $searchResults.insertAdjacentElement('afterbegin', $resultList);
-      $resultList.insertAdjacentHTML('afterbegin', html);
-    } else {
-      document.querySelector('.results-list').remove();
-      _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.remove('is-hidden');
-    }
-  }
-  $searchInput.addEventListener('input', searchHandler);
-  $searchInput.addEventListener('change', searchHandler);
-  $searchClear.addEventListener('click', e => {
-    showAllCities();
-    $searchInput.value = '';
-  });
-}
-function initListeners() {
+function initCityPicker() {
   _vars__WEBPACK_IMPORTED_MODULE_2__.$saveBtn.addEventListener('click', e => {
     e.preventDefault();
     const $savedCities = document.querySelectorAll('.selected-list__item');
@@ -239,23 +218,97 @@ function initListeners() {
   _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.addEventListener('click', _select_city__WEBPACK_IMPORTED_MODULE_0__.selectCityHandler);
   _vars__WEBPACK_IMPORTED_MODULE_2__.$resultsWrapper.addEventListener('click', _select_city__WEBPACK_IMPORTED_MODULE_0__.selectCityHandler);
   window.addEventListener('click', e => {
-    if (!e.target.closest('.city-picker') && !e.target.closest('.selected-list__delete')) {
-      _vars__WEBPACK_IMPORTED_MODULE_2__.$cityPicker.classList.remove('is-active');
-    } else if (e.target.closest('.city-picker__head')) {
-      _vars__WEBPACK_IMPORTED_MODULE_2__.$cityPicker.classList.toggle('is-active');
+    if (!e.target.closest('.city-picker')) (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.closeCityPicker)();else if (e.target.closest('.city-picker__head')) {
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$cityPicker.classList.contains('is-active') ? (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.closeCityPicker)() : (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.openCityPicker)();
       if (!data.length) {
-        (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])('https://studika.ru/api/areas', {
+        (0,axios__WEBPACK_IMPORTED_MODULE_5__["default"])('https://studika.ru/api/areas', {
           method: 'POST'
         }).then(response => {
           data = response.data;
-          initCities();
-          initSearch();
+          (0,_cities__WEBPACK_IMPORTED_MODULE_4__.initCities)();
+          (0,_search__WEBPACK_IMPORTED_MODULE_3__.initSearch)();
         }).catch(err => console.log(err));
       }
     }
   });
 }
-initListeners();
+
+/***/ }),
+
+/***/ "./src/js/components/city-picker/search.js":
+/*!*************************************************!*\
+  !*** ./src/js/components/city-picker/search.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "initSearch": () => (/* binding */ initSearch)
+/* harmony export */ });
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./src/js/components/city-picker/helpers.js");
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./init */ "./src/js/components/city-picker/init.js");
+/* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
+
+
+
+function initSearch() {
+  const $search = document.querySelector('.city-picker__search');
+  const $searchInput = $search.querySelector('.city-picker__input');
+  const $searchClear = $search.querySelector('.city-picker__clear');
+  const $searchResults = document.querySelector('.city-picker__results');
+  let prevSearchValue = '';
+  function searchHandler(e) {
+    const value = e.target.value.trim().toLowerCase();
+
+    // исключаем одновременное выполнение событий change и click если значение не изменилось
+    if (value === prevSearchValue) return;
+    prevSearchValue = value;
+    if (value !== '') {
+      document.querySelector('.results-list')?.remove();
+      const $resultList = document.createElement('ul');
+      $resultList.classList.add('results-list');
+      $resultList.classList.add('city-list');
+      $search.classList.add('is-active');
+      const allCitiesArrayHTML = _init__WEBPACK_IMPORTED_MODULE_1__.allCities.map(item => {
+        const extraClass = (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getSelectedNodeById)(item.id) ? ' is-active' : '';
+        if (item.name.toLowerCase().search(value) === -1) {
+          return null;
+        } else {
+          const str = item.name;
+          const itemNameHTML = insertMark(str, item.name.toLowerCase().search(value), value.length);
+          return !item.type ? (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityHTML)(item.id, itemNameHTML, item.areaName, extraClass) : (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getAreaHTML)(item.id, itemNameHTML, extraClass);
+        }
+      });
+      let html = '';
+      allCitiesArrayHTML.forEach(item => {
+        if (item) {
+          html += item;
+        }
+      });
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.add('is-hidden');
+      $searchResults.insertAdjacentElement('afterbegin', $resultList);
+      $resultList.insertAdjacentHTML('afterbegin', html);
+    } else {
+      document.querySelector('.results-list').remove();
+      _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.remove('is-hidden');
+    }
+  }
+  function showAllCities() {
+    $search.classList.remove('is-active');
+    document.querySelector('.results-list').remove();
+    _vars__WEBPACK_IMPORTED_MODULE_2__.$citiesWrapper.classList.remove('is-hidden');
+  }
+  function insertMark(str, pos, len) {
+    return str.slice(0, pos) + '<mark>' + str.slice(pos, pos + len) + '</mark>' + str.slice(pos + len);
+  }
+  $searchInput.addEventListener('input', searchHandler);
+  $searchInput.addEventListener('change', searchHandler);
+  $searchClear.addEventListener('click', e => {
+    showAllCities();
+    $searchInput.value = '';
+  });
+}
 
 /***/ }),
 
@@ -275,11 +328,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vars__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vars */ "./src/js/components/city-picker/vars.js");
 
 
-function removeSelectedElement($element) {
-  const TRANSITION_DELAY = 250;
-  $element.classList.add('is-fade-out');
-  setTimeout(() => $element.remove(), TRANSITION_DELAY);
-}
 function selectCity(id, isSetActive) {
   const $city = (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.getCityNodeById)(id);
   const $selectedCityList = document.querySelector('.selected-list');
@@ -302,6 +350,10 @@ function selectCityHandler(e) {
     $cityListItem.classList.contains('is-active') ? selectCity($cityListItem.dataset.id) : selectCity($cityListItem.dataset.id, true);
   }
 }
+function removeSelectedElement($element) {
+  $element.classList.add('is-fade-out');
+  setTimeout(() => $element.remove(), _vars__WEBPACK_IMPORTED_MODULE_1__.TRANSITION_DELAY);
+}
 
 /***/ }),
 
@@ -319,7 +371,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "$preloader": () => (/* binding */ $preloader),
 /* harmony export */   "$resultsWrapper": () => (/* binding */ $resultsWrapper),
 /* harmony export */   "$saveBtn": () => (/* binding */ $saveBtn),
-/* harmony export */   "$selectedWrapper": () => (/* binding */ $selectedWrapper)
+/* harmony export */   "$selectedWrapper": () => (/* binding */ $selectedWrapper),
+/* harmony export */   "TRANSITION_DELAY": () => (/* binding */ TRANSITION_DELAY)
 /* harmony export */ });
 const $cityPicker = document.querySelector('.city-picker');
 const $saveBtn = $cityPicker.querySelector('.city-picker__save');
@@ -327,6 +380,7 @@ const $preloader = $cityPicker.querySelector('.city-picker__preloader');
 const $citiesWrapper = $cityPicker.querySelector('.city-picker__items');
 const $selectedWrapper = $cityPicker.querySelector('.city-picker__selected');
 const $resultsWrapper = $cityPicker.querySelector('.city-picker__results');
+const TRANSITION_DELAY = 310;
 
 /***/ }),
 
@@ -402,14 +456,11 @@ const $resultsWrapper = $cityPicker.querySelector('.city-picker__results');
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var perfect_scrollbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! perfect-scrollbar */ "./node_modules/perfect-scrollbar/dist/perfect-scrollbar.esm.js");
 
-const scrollCityItems = new perfect_scrollbar__WEBPACK_IMPORTED_MODULE_0__["default"]('.city-picker__items', {
-  minScrollbarLength: 50
-});
-const scrollCityPickerResults = new perfect_scrollbar__WEBPACK_IMPORTED_MODULE_0__["default"]('.city-picker__results', {
-  minScrollbarLength: 50
-});
-const scrollMenu = new perfect_scrollbar__WEBPACK_IMPORTED_MODULE_0__["default"]('.menu__wrapper', {
-  minScrollbarLength: 50
+const $scrollbarContainers = document.querySelectorAll('.perfect-scrollbar');
+$scrollbarContainers.forEach($scrollbar => {
+  new perfect_scrollbar__WEBPACK_IMPORTED_MODULE_0__["default"]($scrollbar, {
+    minScrollbarLength: 50
+  });
 });
 
 /***/ }),

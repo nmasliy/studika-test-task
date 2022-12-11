@@ -4,15 +4,7 @@ import {
   getSelectedHTML,
 } from './helpers';
 
-import { $resultsWrapper } from './vars';
-
-function removeSelectedElement($element) {
-  const TRANSITION_DELAY = 250;
-
-  $element.classList.add('is-fade-out');
-
-  setTimeout(() => $element.remove(), TRANSITION_DELAY);
-}
+import { $resultsWrapper, TRANSITION_DELAY } from './vars';
 
 export function selectCity(id, isSetActive) {
   const $city = getCityNodeById(id);
@@ -43,4 +35,10 @@ export function selectCityHandler(e) {
       ? selectCity($cityListItem.dataset.id)
       : selectCity($cityListItem.dataset.id, true);
   }
+}
+
+function removeSelectedElement($element) {
+  $element.classList.add('is-fade-out');
+
+  setTimeout(() => $element.remove(), TRANSITION_DELAY);
 }
