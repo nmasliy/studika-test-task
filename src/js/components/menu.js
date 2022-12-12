@@ -15,7 +15,7 @@
     if ($menu && window.innerWidth <= MOBILE_MENU_BREAKPOINT && !isInit) {
       isInit = true;
       $burger.addEventListener('click', toggleMenu);
-      // $close.addEventListener('click', closeMenu);
+      $close.addEventListener('click', closeMenu);
       $overlay.addEventListener('click', closeMenu);
       $menuItems.forEach((el) => {
         el.addEventListener('click', closeMenu);

@@ -1,5 +1,4 @@
 {
-  "validateExtensions": true,
   "validateDivTags": true,
   "validateAttributeSeparator": {
     "separator": ", ",

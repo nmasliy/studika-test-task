@@ -1,0 +1,305 @@
+.city-picker {
+  position: relative;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    max-width: 200px;
+    background: transparent;
+    cursor: pointer;
+
+    @include hover {
+      .city-picker__icon {
+        background-color: $bg-color;
+      }
+    }
+  }
+
+  &__current {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__icon {
+    display: block;
+    flex-shrink: 0;
+    margin-right: 8px;
+    border: 1px solid #a7a7a7;
+    border-radius: 50%;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    background:
+      url("../img/city-picker-icon.svg") center / 16px 19px no-repeat
+      $white-color;
+    transition: background-color $transition;
+    cursor: pointer;
+  }
+
+  &__modal {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    z-index: 22;
+    display: none;
+    border-radius: 10px;
+    padding-top: 24px;
+    width: 385px;
+    box-shadow: 0 7px 38px rgba(44, 62, 106, 25%);
+    background-color: #fbfbfb;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: $transition;
+
+    @media (max-width: 1024px) {
+      position: fixed;
+      top: 0;
+      overflow: auto;
+      border-radius: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__form {
+    @media (max-width: 1024px) {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+  }
+
+  &__search {
+    position: relative;
+    margin-bottom: 15px;
+    padding: 0 16px;
+
+    &.is-active {
+      .city-picker__clear {
+        display: block;
+      }
+    }
+  }
+
+  &__input {
+    border-color: #abc8ea;
+
+    &::placeholder {
+      color: $icons-color;
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    display: none;
+    border: none;
+    padding: 0;
+    width: 14px;
+    height: 14px;
+    background: transparent;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  &__selected {
+    margin: 16px 16px 8px;
+    border-bottom: 1px solid #d8d8d8;
+    padding-bottom: 15px;
+  }
+
+  &__save {
+    outline: none;
+    border: none;
+    border-radius: 0 0 10px 10px;
+    padding: 16px 30px;
+    width: 100%;
+    font-family: "Formular", sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $white-color;
+    background-color: $action-color;
+    cursor: pointer;
+
+    @media (max-width: 1024px) {
+      margin-top: auto;
+      border-radius: 0;
+    }
+  }
+
+  &__m {
+    &-head {
+      display: none;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 0 16px;
+
+      @media (max-width: 1024px) {
+        display: flex;
+      }
+    }
+
+    &-title {
+      margin-left: 10px;
+      font-family: "Formular", sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    &-close {
+      @include flex-center;
+
+      border: none;
+      padding: 0;
+      width: 40px;
+      background: transparent;
+      cursor: pointer;
+    }
+  }
+
+  &.is-animated {
+    .city-picker__modal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &.is-active {
+    .city-picker__modal {
+      display: block;
+    }
+  }
+
+  &__items,
+  &__results {
+    position: relative;
+    max-height: 200px;
+
+    @media (max-width: 1024px) {
+      max-height: calc(100vh - (var(--city-picker-top-height) + var(--city-picker-btn-height) + 36px));
+    }
+  }
+}
+
+.selected-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -4px -8px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    vertical-align: middle;
+    margin: 4px 8px;
+    border-radius: 49px;
+    padding: 9px 12px 9px 17px;
+    color: $white-color;
+    background: $action-color;
+    transition: opacity $transition;
+    animation: fade-in $transition;
+
+    &.is-fade-out {
+      opacity: 0;
+    }
+  }
+
+  &__delete {
+    @include flex-center;
+
+    margin-left: 20px;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    path {
+      fill: $white-color;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    overflow-y: auto;
+    max-height: 195px;
+  }
+}
+
+.city-list {
+  list-style: none;
+
+  &__name mark {
+    color: $action-color;
+    background-color: transparent;
+  }
+
+  &__item {
+    padding: 8px 23px;
+    transition: background-color $transition;
+    cursor: pointer;
+
+    &.is-active {
+      background-color: $bg-color;
+    }
+
+    @include hover {
+      background-color: $bg-color;
+    }
+  }
+
+  &__region {
+    font-size: 12px;
+    line-height: 20px;
+    color: $grey-color;
+  }
+}
+
+.city-picker-mobile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  padding: 8px 48px 8px 16px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    border: 1px solid #d8d8d8;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background: url("../img/city-picker-icon.svg") center no-repeat;
+    transform: translateY(-50%);
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 12px;
+    color: $grey-color;
+  }
+
+  &__current {
+    display: block;
+    overflow: hidden;
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

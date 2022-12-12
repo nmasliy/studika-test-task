@@ -2,6 +2,7 @@ import {
   getCityNodeById,
   getSelectedNodeById,
   getSelectedHTML,
+  updateCityTopHeight,
 } from './helpers';
 
 import { $resultsWrapper, TRANSITION_DELAY } from './vars';
@@ -35,6 +36,8 @@ export function selectCityHandler(e) {
       ? selectCity($cityListItem.dataset.id)
       : selectCity($cityListItem.dataset.id, true);
   }
+
+  updateCityTopHeight();
 }
 
 function removeSelectedElement($element) {

@@ -1,5 +1,20 @@
-.header__menu.menu 
+.header__menu.menu
   .menu__wrapper.perfect-scrollbar
-    include city-picker
+    .menu__top
+      a.menu__profile.profile-box(href="#")
+        span Екатерина
+        +picture-x2('@img/avatar', 'jpg', 32, 32, 'Екатерина', 'lazy')
+      button.menu__city-picker.city-picker-mobile
+        span.city-picker-mobile__subtitle Город или регион
+        span.city-picker-mobile__current Любой регион
+    include menu-tabs
+    .menu__footer
+      ul
+        li
+          a Профессии
+        li
+          a Отзывы студентов
+        li
+          a Реклама на сайте
   button.menu__close
     include ../../img/close-icon.svg

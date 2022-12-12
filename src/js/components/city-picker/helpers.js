@@ -1,4 +1,9 @@
-import { $cityPicker, TRANSITION_DELAY } from './vars';
+import {
+  $cityPicker,
+  $cityPickerTop,
+  $saveBtn,
+  TRANSITION_DELAY,
+} from './vars';
 
 export const getCityNodeById = (
   id,
@@ -31,10 +36,22 @@ export const getCityHTML = (id, name, areaName, itemClass = '') => `
 
 export const openCityPicker = () => {
   $cityPicker.classList.add('is-active');
-  setTimeout(() => $cityPicker.classList.add('is-animated'), TRANSITION_DELAY);
+  setTimeout(() => $cityPicker.classList.add('is-animated'), 1);
+  updateCityTopHeight();
 };
 
 export const closeCityPicker = () => {
   $cityPicker.classList.remove('is-animated');
   setTimeout(() => $cityPicker.classList.remove('is-active'), TRANSITION_DELAY);
+};
+
+export const updateCityTopHeight = () => {
+  document.documentElement.style.setProperty(
+    '--city-picker-top-height',
+    $cityPickerTop.offsetHeight + 'px'
+  );
+  document.documentElement.style.setProperty(
+    '--city-picker-btn-height',
+    $saveBtn.offsetHeight + 'px'
+  );
 };

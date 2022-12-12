@@ -1,9 +1,11 @@
 // базовые подключения
-@import 'vars';
-@import 'mixins';
-@import 'fonts';
-@import 'settings';
+@import "vars";
+@import "mixins";
+@import "fonts";
+@import "global";
 
 // подключения компонентов страницы
-@import './components/ui';
-@import './components/header';
+@import "./components/ui";
+@import "./components/city-picker";
+@import "./components/header";
+@import "./components/menu";

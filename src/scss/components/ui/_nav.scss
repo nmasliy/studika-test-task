@@ -1,0 +1,29 @@
+.nav {
+  > ul {
+    display: flex;
+    flex-wrap: wrap;
+
+    > li {
+      @include mr(30px);
+
+      flex-shrink: 0;
+
+      > a {
+        display: inline-block;
+        border-radius: 34px;
+        padding: 2px 10px;
+        transition: background-color $transition;
+
+        @include hover {
+          background-color: $bg-color;
+        }
+      }
+
+      @media (max-width: 1440px) {
+        @include mr(15px);
+
+        font-size: 14px;
+      }
+    }
+  }
+}

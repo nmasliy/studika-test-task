@@ -1,51 +1,12 @@
-html {
-  height: 100%;
-  box-sizing: border-box;
-  -webkit-text-size-adjust: 100%;
-}
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100%;
-  font-family: $font-family;
-  font-size: 14px;
-  line-height: 22px;
-  color: $main-color;
-  background-color: $bg-color;
-}
-
-img,
-video {
-  height: auto;
-  max-width: 100%;
-  object-fit: cover;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-input,
-button {
-  font: inherit;
+.is-hidden {
+  display: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
 .page-wrapper {
   @include footerToBottom;
 
   overflow: hidden;
-}
-
-.is-hidden {
-  display: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
 .main {
@@ -74,8 +35,8 @@ button {
   padding: 11px 42px 11px 25px;
   width: 100%;
   box-shadow: none;
-  transition: background-color $transition;
   background-color: $white-color;
+  transition: background-color $transition;
 
   &::placeholder {
     color: $grey-color;
@@ -92,5 +53,18 @@ button {
   &::-webkit-search-results-button,
   &::-webkit-search-results-decoration {
     display: none;
+  }
+}
+
+.profile-box {
+  display: flex;
+  align-items: center;
+
+  img {
+    flex-shrink: 0;
+    margin-left: 7px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
   }
 }

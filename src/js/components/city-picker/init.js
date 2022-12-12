@@ -48,8 +48,16 @@ export function initCityPicker() {
   $resultsWrapper.addEventListener('click', selectCityHandler);
 
   window.addEventListener('click', (e) => {
-    if (!e.target.closest('.city-picker')) closeCityPicker();
-    else if (e.target.closest('.city-picker__head')) {
+    if (
+      e.target.closest('.city-picker__m-close') ||
+      (!e.target.closest('.city-picker') &&
+        !e.target.closest('.city-picker-mobile'))
+    )
+      closeCityPicker();
+    else if (
+      e.target.closest('.city-picker__head') ||
+      e.target.closest('.city-picker-mobile')
+    ) {
       $cityPicker.classList.contains('is-active')
         ? closeCityPicker()
         : openCityPicker();
